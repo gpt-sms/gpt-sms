@@ -1,0 +1,32 @@
+{
+  "name": "gptsms",
+  "version": "0.1.0",
+  "description": "GPT SMS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/app.js",
+    "test:cache": "node ./testCache.js"
+  },
+  "keywords": [
+    "openai",
+    "gpt",
+    "chatgpt",
+    "vonage",
+    "sms",
+    "inbound",
+    "api",
+    "node"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vonage/server-sdk": "^3.3.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
+    "openai": "^3.2.1",
+    "nodemon": "^2.0.22"
+  }
+}
