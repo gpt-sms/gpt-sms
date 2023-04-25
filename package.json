@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.js",
-    "test:cache": "node ./testCache.js"
+    "start": "nodemon src/service.js"
   },
   "keywords": [
     "openai",
@@ -21,12 +20,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.21.0",
     "@vonage/server-sdk": "^3.3.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-rate-limit": "^6.7.0",
-    "openai": "^3.2.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "openai": "^3.2.1"
   }
 }

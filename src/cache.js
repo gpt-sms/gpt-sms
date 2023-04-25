@@ -8,7 +8,7 @@ module.exports = {
    *
    * 'msisdn': {
    *    messages: [],
-   *    timestap: '123456789'
+   *    timestamp: '123456789'
    * }
    */
   pool: {},
@@ -21,17 +21,19 @@ module.exports = {
   init: async function () {
     try {
       await fs.access(this.cacheFilePath);
-      console.log(`'cache' already exists.`);
+      console.log('👍 cache exists in: ', this.cacheFilePath);
 
-      this.pool = JSON.parse(
-        await fs.readFile(this.cacheFilePath)
-      );
+      const content = await fs.readFile(this.cacheFilePath);
+      if (content) {
+        console.log('👍 cache loaded in memory');
+        this.pool = JSON.parse(content);
+      }
     } catch (err) {
       console.log(`'cache' does not exist. Creating it...`);
 
       try {
         await fs.writeFile(this.cacheFilePath, '');
-        console.log(`'cache'} created successfully...`);
+        console.log(`👌 cache created successfully...`);
       } catch (writeErr) {
         console.error(`Error creating 'cache'}'reated successfully...`, writeErr);
       }
@@ -39,18 +41,18 @@ module.exports = {
   },
 
   /**
-   * Add new item to the pool
+   * Create a new item in the pool
    * 
    * @param {String} msisdn calledId
    * @param {Array} messages messages history {role, content}
    */
-  add: function (msisdn, messages) {
+  create: function (msisdn, messages) {
     if (this.pool[msisdn])
-      throw new Error('Msisdn: ' + msisdn + ' already cached');
+      return false;
 
     this.pool[msisdn] = {
       messages,
-      timestamp: new Date().getTime(),
+      timestamp: Date.now(),
     };
   },
 
@@ -60,12 +62,12 @@ module.exports = {
    * @param {String} msisdn calledId
    * @param {Object} message message to be pushed.
    */
-  pushNewMessage: function (msisdn, message) {
+  pushNewMessages: function (msisdn, messages) {
     if (!this.pool[msisdn])
-      throw new Error('Msisdn: ' + msisdn + ' is undefined in cache.');
+      return false;
 
     this.pool[msisdn] = {
-      messages: [...this.pool[msisdn].messages, message],
+      messages: [...this.pool[msisdn].messages, ...messages],
       timestamp: new Date().getTime(),
     }
   },
@@ -75,9 +77,6 @@ module.exports = {
   },
 
   get: function (msisdn) {
-    if (!this.pool[msisdn])
-      throw new Error('Msisdn: ' + msisdn + ' is undefined in cache.');
-
     return this.pool[msisdn];
   },
 
